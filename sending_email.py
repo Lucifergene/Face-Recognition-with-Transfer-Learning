@@ -16,5 +16,5 @@ server.starttls()
 server.login("#Username", "#Password")
 print("Logged in Successfully!")
 # Send Email
-server.sendmail("Avik", {rec_email}, message)
+server.sendmail("<Your Name>", {rec_email}, message)
 print(f"Email has been sent successfully to {rec_email}")
