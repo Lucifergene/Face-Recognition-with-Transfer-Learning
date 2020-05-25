@@ -15,7 +15,7 @@ model = VGG16(weights = 'imagenet',
                  include_top = False, 
                  input_shape = (img_rows, img_cols, 3))
 
-# Here we freeze the last 4 layers 
+# Here we freeze the last layers 
 # Layers are set to trainable as True by default
 for layer in model.layers:
     layer.trainable = False
@@ -40,7 +40,7 @@ def add_layer(bottom_model, num_classes):
     return top_model
 
 
-# ### Let's add our FC Head back onto MobileNet
+# ### Let's add our FC Head back onto VGG16
 
 from keras.models import Sequential
 from keras.layers import Dense, Dropout, Activation, Flatten, GlobalAveragePooling2D
@@ -48,8 +48,8 @@ from keras.layers import Conv2D, MaxPooling2D, ZeroPadding2D
 from keras.layers.normalization import BatchNormalization
 from keras.models import Model
 
-# Set our class number to 3 (Young, Middle, Old)
-num_classes = 3
+# Set our class number to 2
+num_classes = 2
 
 FC_Head = add_layer(model, num_classes)
 
@@ -124,7 +124,7 @@ nb_train_samples = 102
 nb_validation_samples = 28 
 
 # We only train 5 EPOCHS 
-epochs = 2
+epochs = 5
 batch_size = 16
 
 history = modelnew.fit_generator(
@@ -137,8 +137,6 @@ history = modelnew.fit_generator(
 
 modelnew.save("/root/face_vgg16.h5")
 
-# ### Re-training the Model
-# - Triggering the next job of the accuracy falls below 92%
 
 final_accuracy=history.history["val_accuracy"][-1]
 print(final_accuracy)
